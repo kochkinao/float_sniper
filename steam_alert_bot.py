@@ -357,6 +357,43 @@ def fmt_pct(v: Any) -> str:
     return f'{v:+.1f}%' if isinstance(v, (int, float)) else '—'
 
 
+
+def human_bool(v: Any, yes: str = 'да', no: str = 'нет') -> str:
+    if v is True:
+        return yes
+    if v is False:
+        return no
+    return '—'
+
+
+def confidence_label(ev: dict[str, Any] | None) -> str:
+    if not ev:
+        return 'низкая'
+    sales_n = (ev.get('recent_sale_stats') or {}).get('count', 0)
+    active_n = (ev.get('active_comp_stats') or {}).get('count', 0)
+    if sales_n >= 3 and active_n >= 5:
+        return 'хорошая'
+    if active_n >= 5:
+        return 'средняя'
+    return 'низкая'
+
+
+def human_risks(raw: Any) -> str:
+    text = str(raw or '').strip()
+    if not text or text in ('—', '-'):
+        return 'явных красных флагов нет'
+    mapping = {
+        'МАЛО АКТИВНЫХ КОМПОВ': 'мало активных похожих лотов',
+        'МАЛО ПРОДАЖ РЯДОМ С FLOAT': 'мало продаж рядом с этим float',
+        'НИЗКАЯ ЛИКВИДНОСТЬ': 'низкая ликвидность',
+        'ROI МЕНЬШЕ 10%': 'ROI ниже 10%',
+        'ПРЕМИЯ ЗА FLOAT МЕНЬШЕ 10%': 'премия за float слабая',
+        'STEAM ДОРОЖЕ CSFLOAT-БАЗЫ С УЧЕТОМ НАЦЕНКИ': 'Steam цена выше нормальной Steam-наценки к CSFloat базе',
+    }
+    parts = [x.strip() for x in re.split(r'[;,]', text) if x.strip()]
+    return '; '.join(mapping.get(x, x) for x in parts) if parts else text
+
+
 def csfloat_summary(client: CSFloat | None, name: str | None, target_float: float | None, buy_price: float | None, ev: dict[str, Any] | None = None) -> str:
     if ev is None:
         if not client or not name:
@@ -365,77 +402,114 @@ def csfloat_summary(client: CSFloat | None, name: str | None, target_float: floa
             ev = evaluate_nearby_float(client, name, target_float, buy_price, min_comps=5, limit=20)
         except Exception as e:
             return f'CSFloat: ошибка проверки ({type(e).__name__})'
+
     active = ev.get('active_comp_stats') or {}
     sales = ev.get('recent_sale_stats') or {}
-    lines = ['Steam рынок:']
-    if ev.get('steam_visible_median_usd') is not None:
-        lines.append(f'- обычная видимая цена Steam: {fmt_usd(ev.get("steam_visible_median_usd"))}')
-        lines.append(f'- кандидат к Steam median: {fmt_pct(ev.get("steam_delta_to_median_pct"))}')
-    else:
-        lines.append('- обычная цена Steam: нет данных')
+    base_sell = ev.get('base_target_sell_price_usd') or ev.get('target_sell_price_usd') or ev.get('estimated_fair_usd')
+    expected_sell = ev.get('target_sell_price_usd') or ev.get('estimated_fair_usd')
+    beauty_mult = ev.get('beauty_multiplier')
+    base_roi = ev.get('base_resale_roi_pct')
+    roi = ev.get('resale_roi_pct')
+    steam_ok = ev.get('steam_base_price_ok')
+
+    lines = []
+    lines.append('📌 Коротко:')
+    lines.append(f'- Steam покупка: {fmt_usd(buy_price)}')
+    lines.append(f'- База CSFloat рядом с таким float: {fmt_usd(base_sell)}')
+    if beauty_mult is not None:
+        lines.append(f'- Коэффициент красоты: x{float(beauty_mult):.2f}')
+    lines.append(f'- Цель продажи на CSFloat: {fmt_usd(expected_sell)}')
+    lines.append(f'- ROI после 2% CSFloat: {fmt_pct(roi)}')
+
     lines.append('')
-    lines.append('CSFloat рынок:')
-    lines.append(f'- обычный CSFloat рынок: floor {fmt_usd(ev.get("active_floor_usd"))}; median10 {fmt_usd(ev.get("active_median_10_usd"))}')
+    lines.append('💸 Проверка цены:')
+    if ev.get('steam_fair_min_usd') is not None and ev.get('steam_fair_max_usd') is not None:
+        lines.append(f'- Нормальная Steam-вилка от CSFloat базы: {fmt_usd(ev.get("steam_fair_min_usd"))}–{fmt_usd(ev.get("steam_fair_max_usd"))}')
+        lines.append(f'- Steam цена в этой вилке: {human_bool(steam_ok)}')
+    elif ev.get('steam_visible_median_usd') is not None:
+        lines.append(f'- Видимая медиана Steam: {fmt_usd(ev.get("steam_visible_median_usd"))}')
+        lines.append(f'- Кандидат к Steam median: {fmt_pct(ev.get("steam_delta_to_median_pct"))}')
+    else:
+        lines.append('- Steam-вилка: нет данных')
+    if base_roi is not None:
+        lines.append(f'- ROI без премии за красоту: {fmt_pct(base_roi)}')
+
+    lines.append('')
+    lines.append('🔎 CSFloat-компы:')
+    lines.append(f'- Обычный рынок: floor {fmt_usd(ev.get("active_floor_usd"))}; median10 {fmt_usd(ev.get("active_median_10_usd"))}')
     if ev.get('active_comp_window') is not None:
         lo = ev.get('active_comp_float_min')
         hi = ev.get('active_comp_float_max')
-        lines.append(f'- похожие float: ±{ev.get("active_comp_window")} | n={active.get("count", 0)} | median {fmt_usd(active.get("median_usd"))}')
+        line = f'- Активные похожие float: ±{ev.get("active_comp_window")} | n={active.get("count", 0)} | median {fmt_usd(active.get("median_usd"))}'
         if lo is not None and hi is not None:
-            lines.append(f'- диапазон float-компов: {lo:.6f}–{hi:.6f}')
+            line += f' | {lo:.6f}–{hi:.6f}'
+        lines.append(line)
     else:
-        lines.append('- похожие float: не нашёл достаточно компов')
+        lines.append('- Активные похожие float: мало данных')
     if ev.get('recent_sale_window') is not None:
-        lines.append(f'- продажи похожих float: ±{ev.get("recent_sale_window")} | n={sales.get("count", 0)} | median {fmt_usd(sales.get("median_usd"))}')
+        lines.append(f'- Продажи похожих float: ±{ev.get("recent_sale_window")} | n={sales.get("count", 0)} | median {fmt_usd(sales.get("median_usd"))}')
     else:
-        lines.append(f'- продажи похожих float: нет/мало ({ev.get("recent_sales_sample_total", 0)} общих продаж в истории)')
-    lines.append(f'- премия за float к обычному CSFloat рынку: {fmt_pct(ev.get("float_premium_pct"))}')
+        lines.append(f'- Продажи похожих float: мало данных ({ev.get("recent_sales_sample_total", 0)} продаж всего в истории)')
+
     lines.append('')
-    lines.append('Перепродажа на CSFloat:')
-    lines.append(f'- target sell: {fmt_usd(ev.get("target_sell_price_usd"))} ({valuation_source_ru(ev.get("valuation_source"))})')
-    lines.append(f'- break-even: {fmt_usd(ev.get("break_even_sell_price_usd"))}')
-    lines.append(f'- для +10% ROI: {fmt_usd(ev.get("sell_price_for_10pct_roi_usd"))}; для +20%: {fmt_usd(ev.get("sell_price_for_20pct_roi_usd"))}')
-    lines.append(f'- ожидаемый ROI после 2% CSFloat: {fmt_pct(ev.get("resale_roi_pct"))}')
-    lines.append(f'- риски: {ev.get("risk_flags") or "—"}')
+    lines.append('⚠️ Риски:')
+    lines.append(f'- Доверие к оценке: {confidence_label(ev)}')
+    lines.append(f'- {human_risks(ev.get("risk_flags"))}')
+    lines.append(f'- Break-even на CSFloat: {fmt_usd(ev.get("break_even_sell_price_usd"))}')
+    lines.append(f'- Цена для +10% ROI: {fmt_usd(ev.get("sell_price_for_10pct_roi_usd"))}; для +20% ROI: {fmt_usd(ev.get("sell_price_for_20pct_roi_usd"))}')
     return '\n'.join(lines)
 
 
 def decision_label(ev: dict[str, Any] | None) -> str:
     if not ev:
-        return 'Вывод: WATCH — CSFloat не проверен'
+        return '✅ Вывод: WATCH — CSFloat не проверен, нужна ручная оценка.'
     roi = ev.get('resale_roi_pct')
-    prem = ev.get('float_premium_pct')
+    base_roi = ev.get('base_resale_roi_pct')
+    steam_ok = ev.get('steam_base_price_ok')
+    beauty_score = ev.get('beautiful_score')
+    beauty_mult = ev.get('beauty_multiplier')
     sales_n = (ev.get('recent_sale_stats') or {}).get('count', 0)
     active_n = (ev.get('active_comp_stats') or {}).get('count', 0)
-    steam_delta = ev.get('steam_delta_to_median_pct')
+
+    beauty_ok = isinstance(beauty_score, (int, float)) and beauty_score >= 55
+    base_price_ok = steam_ok is not False
+
+    if beauty_ok and base_price_ok:
+        if isinstance(roi, (int, float)) and roi >= 25 and active_n >= 5:
+            return '🚀 Вывод: STRONG — красивый float, цена выглядит базовой, есть хороший запас. Быстрая ручная проверка.'
+        return '✅ Вывод: GEM WATCH — владелец, похоже, не заложил премию за красивый float. Проверить руками быстро.'
+
+    if steam_ok is False:
+        return '⚠️ Вывод: WATCH/SKIP — Steam цена выше нормальной вилки к CSFloat базе. Брать только если красота реально редкая.'
     if not isinstance(roi, (int, float)):
-        return 'Вывод: WATCH — мало данных для ROI'
+        return '⚠️ Вывод: WATCH — мало данных для расчета ROI.'
     if roi < 10:
-        return 'Вывод: SKIP — ожидаемый ROI ниже 10%'
-    if isinstance(steam_delta, (int, float)) and steam_delta > 10:
-        return 'Вывод: WATCH — Steam-лот уже дороже обычного рынка'
-    if isinstance(prem, (int, float)) and prem < 10:
-        return 'Вывод: WATCH — премия за float пока слабая'
+        return '⚠️ Вывод: WATCH — по расчетной продаже ROI слабый, но можно смотреть вручную, если float очень красивый.'
     if roi < 25 or sales_n < 3 or active_n < 5:
-        return 'Вывод: WATCH — есть идея, но нужна ручная проверка'
+        return '✅ Вывод: WATCH — идея есть, но данных/запаса мало. Нужна ручная проверка.'
     if roi >= 50 and sales_n >= 3 and active_n >= 5:
-        return 'Вывод: STRONG — высокий ROI, проверь руками быстро'
-    return 'Вывод: GOOD — есть запас на перепродажу, нужна ручная проверка'
+        return '🚀 Вывод: STRONG — высокий расчетный ROI, проверь руками быстро.'
+    return '✅ Вывод: GOOD — есть запас на перепродажу, нужна ручная проверка.'
 
 
 def plain_alert(r: SteamListing, csfloat_client: CSFloat | None = None, ev: dict[str, Any] | None = None) -> str:
     badge = tier_badge(r.beautiful_tier, r.beautiful_score)
+    reasons = translate_reasons(r.beautiful_reasons)
+    title = r.market_hash_name or r.source_query or ''
     return (
-        f"🔥 Steam candidate · {badge}\n"
-        f"Item: {r.market_hash_name or ''}\n"
-        f"Price: {fmt_usd(r.price_usd)}\n"
-        f"Float: {r.float_value if r.float_value is not None else '—'}\n"
-        f"Tier/score: {badge} / {r.beautiful_score if r.beautiful_score is not None else ''}\n"
-        f"Причина: {translate_reasons(r.beautiful_reasons)}\n"
-        f"Listing ID: {r.listingid}\n"
-        f"Steam lot link: {r.url}\n\n"
+        f"🔥 Найден кандидат · {badge}\n"
+        f"{title}\n\n"
+        f"🎯 Почему интересно:\n"
+        f"- Float: {r.float_value if r.float_value is not None else '—'}\n"
+        f"- Красота: {badge} / score {r.beautiful_score if r.beautiful_score is not None else '—'}\n"
+        f"- Причина: {reasons}\n\n"
+        f"💰 Лот Steam:\n"
+        f"- Цена: {fmt_usd(r.price_usd)}\n"
+        f"- Listing ID: {r.listingid}\n"
+        f"- Ссылка: {r.url}\n\n"
         f"{csfloat_summary(csfloat_client, r.market_hash_name, r.float_value, r.price_usd, ev)}\n\n"
         f"{decision_label(ev)}\n\n"
-        "Action: ручная проверка, покупок бот не делает."
+        "Действие: бот не покупает. Открой лот, проверь float/скин/ликвидность и только потом принимай решение."
     )
 
 
@@ -1116,10 +1190,13 @@ class Scanner:
         return self.local_reject_reason(r, cfg) is None
 
     def csfloat_reject_reason(self, r: SteamListing, cfg: dict[str, Any], steam_median_usd: float | None = None, steam_floor_usd: float | None = None) -> str | None:
-        if steam_median_usd and r.price_usd:
-            steam_delta_pre = round((float(r.price_usd) / float(steam_median_usd) - 1) * 100, 1)
-            if steam_delta_pre > float(cfg.get('max_steam_overpay_pct', 10)):
-                return 'steam_overpay'
+        """Return reject reason or None.
+
+        Important strategy:
+        - CSFloat nearby comps are the *base* price for the same wear/float area.
+        - Beautiful float premium is estimated by csfloat_evaluator via beauty_multiplier.
+        - A beautiful Steam lot should not be rejected only because raw nearby comps have weak ROI.
+        """
         if not self.csfloat_client or not r.market_hash_name:
             return None
         try:
@@ -1130,38 +1207,74 @@ class Scanner:
             if cached and time.time() - cached[0] <= ttl:
                 ev = dict(cached[1])
             else:
-                ev = evaluate_nearby_float(self.csfloat_client, r.market_hash_name, r.float_value, r.price_usd, min_comps=5, limit=20)
+                ev = evaluate_nearby_float(
+                    self.csfloat_client,
+                    r.market_hash_name,
+                    r.float_value,
+                    r.price_usd,
+                    min_comps=5,
+                    limit=20,
+                    beautiful_score=r.beautiful_score,
+                    beautiful_reasons=r.beautiful_reasons,
+                    beautiful_tier=r.beautiful_tier,
+                )
                 self.csfloat_analysis_cache[cache_key] = (time.time(), dict(ev))
+
             ev['steam_visible_median_usd'] = steam_median_usd
             ev['steam_visible_floor_usd'] = steam_floor_usd
             ev['buy_price_usd'] = r.price_usd
-            target_sell = ev.get('target_sell_price_usd') or ev.get('estimated_fair_usd')
-            if target_sell is not None and r.price_usd:
-                ev['resale_roi_pct'] = round((float(target_sell) * 0.98 / float(r.price_usd) - 1) * 100, 1)
-                ev['gross_resale_pct'] = round((float(target_sell) / float(r.price_usd) - 1) * 100, 1)
-                ev['net_edge_after_2pct_fee_pct'] = ev['resale_roi_pct']
-                ev['break_even_sell_price_usd'] = round(float(r.price_usd) / 0.98, 2)
-                ev['sell_price_for_10pct_roi_usd'] = round(float(r.price_usd) * 1.10 / 0.98, 2)
-                ev['sell_price_for_20pct_roi_usd'] = round(float(r.price_usd) * 1.20 / 0.98, 2)
             if steam_median_usd and r.price_usd:
                 ev['steam_delta_to_median_pct'] = round((float(r.price_usd) / float(steam_median_usd) - 1) * 100, 1)
             else:
                 ev['steam_delta_to_median_pct'] = None
             self.csfloat_cache[r.listingid] = ev
+
             roi = ev.get('resale_roi_pct')
+            base_roi = ev.get('base_resale_roi_pct')
             prem = ev.get('float_premium_pct')
+            steam_base_ok = ev.get('steam_base_price_ok')
             steam_delta = ev.get('steam_delta_to_median_pct')
+            beauty_score = r.beautiful_score if r.beautiful_score is not None else ev.get('beautiful_score')
             min_roi = float(cfg.get('min_resale_roi_pct', 10))
             min_prem = float(cfg.get('min_float_premium_pct', 10))
             max_steam_overpay = float(cfg.get('max_steam_overpay_pct', 10))
-            if isinstance(steam_delta, (int, float)) and steam_delta > max_steam_overpay:
+            min_beauty = int(cfg.get('min_beautiful_score', 35))
+
+            is_strong_beauty = isinstance(beauty_score, (int, float)) and beauty_score >= max(55, min_beauty)
+            is_beautiful_candidate = isinstance(beauty_score, (int, float)) and beauty_score >= min_beauty
+
+            # Prefer CSFloat-derived Steam fair range over visible Steam median. Visible Steam page
+            # can be noisy and can accidentally reject exactly the hidden-premium lots we need.
+            if steam_base_ok is False:
+                if is_strong_beauty:
+                    # Still alert for manual review if the number is very attractive.
+                    return None
+                return 'steam_overpay_vs_csfloat_base'
+
+            # Legacy Steam visible median check: only apply to weak beauty candidates.
+            if (
+                not is_strong_beauty
+                and isinstance(steam_delta, (int, float))
+                and steam_delta > max_steam_overpay
+            ):
                 return 'steam_overpay'
+
             if roi is None:
                 return 'no_csfloat_target'
+
+            # For beautiful float hunting, raw/base ROI may be negative because Steam is normally
+            # 10-15% above CSFloat. Do not reject if the lot is base-priced and beauty premium
+            # creates a plausible resale story.
             if isinstance(roi, (int, float)) and roi < min_roi:
+                if is_beautiful_candidate and steam_base_ok is not False:
+                    return None
                 return 'roi_below_min'
+
             if isinstance(prem, (int, float)) and prem < min_prem:
+                if is_strong_beauty and steam_base_ok is not False:
+                    return None
                 return 'premium_below_min'
+
             return None
         except Exception as e:
             log(f'WARN CSFloat filter failed {r.listingid}: {e}')

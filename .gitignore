@@ -1,0 +1,8 @@
+.env
+*.md
+!README.md
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+output/
+*.pyc
