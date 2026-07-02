@@ -1,0 +1,165 @@
+group,enabled,interval_seconds,chunk_size,market_hash_name,median_price,seen_count,reason
+core,True,60,6,AK-47 | Aphrodite (Well-Worn),16.72,43,"median $16.72, seen 43"
+cheap,True,300,20,AK-47 | Elite Build (Battle-Scarred),1.79,122,median $1.79 < $3
+cheap,True,300,20,AK-47 | Emerald Pinstripe (Field-Tested),2.65,8,median $2.65 < $3
+test,True,900,10,AK-47 | Olive Polycam (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,AK-47 | Slate (Factory New),,0,no_seen_price_yet
+test,True,900,10,AK-47 | The Outsiders (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,AK-47 | Wintergreen (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,AUG | Commando Company (Well-Worn),0.01,3,median $0.01 < $3
+cheap,True,300,20,AUG | Snake Pit (Field-Tested),0.07,105,median $0.07 < $3
+test,True,900,10,AWP | Acheron (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,AWP | Atheris (Factory New),,0,no_seen_price_yet
+test,True,900,10,AWP | Atheris (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,AWP | Phobos (Minimal Wear),2.84,5,median $2.84 < $3
+cheap,True,300,20,AWP | Pit Viper (Well-Worn),1.13,55,median $1.13 < $3
+test,True,900,10,CZ75-Auto | Copper Fiber (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,Desert Eagle | Bronze Deco (Field-Tested),0.32,97,median $0.32 < $3
+test,True,900,10,Desert Eagle | Conspiracy (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,Desert Eagle | Heat Treated (Battle-Scarred),1.46,143,median $1.46 < $3
+test,True,900,10,Desert Eagle | Mecha Industries (Factory New),,0,no_seen_price_yet
+test,True,900,10,Desert Eagle | Oxide Blaze (Factory New),,0,no_seen_price_yet
+test,True,900,10,Desert Eagle | Serpent Strike (Factory New),,0,no_seen_price_yet
+test,True,900,10,Desert Eagle | Tilted (Well-Worn),,0,no_seen_price_yet
+cheap,True,300,20,Dual Berettas | BorDeux (Minimal Wear),0.01,14,median $0.01 < $3
+cheap,True,300,20,Dual Berettas | Polished Malachite (Field-Tested),0.04,171,median $0.04 < $3
+cheap,True,300,20,Dual Berettas | Rose Nacre (Battle-Scarred),0.03,73,median $0.03 < $3
+cheap,True,300,20,Dual Berettas | Silver Pour (Well-Worn),0.01,5,median $0.01 < $3
+cheap,True,300,20,FAMAS | Byproduct (Battle-Scarred),0.01,3,median $0.01 < $3
+cheap,True,300,20,FAMAS | Colony (Well-Worn),0.02,12,median $0.02 < $3
+test,True,900,10,FAMAS | Halftone Wash (Factory New),,0,no_seen_price_yet
+test,True,900,10,FAMAS | ZX Spectron (Factory New),,0,no_seen_price_yet
+test,True,900,10,Five-SeveN | Angry Mob (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,Five-SeveN | Coolant (Well-Worn),0.02,21,median $0.02 < $3
+cheap,True,300,20,Five-SeveN | Flame Test (Field-Tested),0.18,23,median $0.18 < $3
+cheap,True,300,20,Five-SeveN | Fraise Crane (Field-Tested),0.28,1,median $0.28 < $3
+cheap,True,300,20,Five-SeveN | Midnight Paintover (Field-Tested),0.04,44,median $0.04 < $3
+cheap,True,300,20,Five-SeveN | Scrawl (Field-Tested),0.08,11,median $0.08 < $3
+test,True,900,10,G3SG1 | Dream Glade (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,G3SG1 | Jungle Dashed (Well-Worn),0.03,31,median $0.03 < $3
+test,True,900,10,G3SG1 | VariCamo (Factory New),,0,no_seen_price_yet
+test,True,900,10,Galil AR | Chromatic Aberration (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,Galil AR | Connexion (Battle-Scarred),0.46,51,median $0.46 < $3
+cheap,True,300,20,Galil AR | Connexion (Field-Tested),0.47,48,median $0.47 < $3
+test,True,900,10,Galil AR | Green Apple (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,Galil AR | Metallic Squeezer (Field-Tested),0.26,26,median $0.26 < $3
+test,True,900,10,Glock-18 | Block-18 (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,Glock-18 | Candy Apple (Field-Tested),1.42,172,median $1.42 < $3
+cheap,True,300,20,Glock-18 | Clear Polymer (Well-Worn),0.3,63,median $0.30 < $3
+test,True,900,10,Glock-18 | Umbral Rabbit (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,Glock-18 | Vogue (Factory New),,0,no_seen_price_yet
+test,True,900,10,Glock-18 | Winterized (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,M4A1-S | Black Lotus (Factory New),,0,no_seen_price_yet
+test,True,900,10,M4A1-S | Decimator (Factory New),,0,no_seen_price_yet
+core,True,60,6,M4A1-S | Decimator (Field-Tested),14.9,29,"median $14.90, seen 29"
+cheap,True,300,20,M4A1-S | Electrum (Battle-Scarred),1.09,137,median $1.09 < $3
+test,True,900,10,M4A1-S | Glitched Paint (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,M4A1-S | Night Terror (Field-Tested),0.81,179,median $0.81 < $3
+cheap,True,300,20,M4A1-S | Wash me plz (Field-Tested),0.08,219,median $0.08 < $3
+test,True,900,10,M4A4 | Aeolian Dark (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,M4A4 | In Living Color (Factory New),,0,no_seen_price_yet
+test,True,900,10,M4A4 | Mainframe (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,M4A4 | Mainframe (Well-Worn),0.04,11,median $0.04 < $3
+cheap,True,300,20,M4A4 | Naval Shred Camo (Battle-Scarred),0.04,45,median $0.04 < $3
+cheap,True,300,20,M4A4 | Steel Work (Well-Worn),0.02,5,median $0.02 < $3
+core,True,60,6,M4A4 | Tooth Fairy (Field-Tested),4.3,46,"median $4.30, seen 46"
+cheap,True,300,20,MAC-10 | Allure (Battle-Scarred),0.45,61,median $0.45 < $3
+test,True,900,10,MAC-10 | Allure (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Bronzer (Factory New),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Calf Skin (Factory New),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Candy Apple (Factory New),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Disco Tech (Factory New),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Light Box (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MAC-10 | Poplar Thicket (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MAG-7 | Foresight (Factory New),,0,no_seen_price_yet
+test,True,900,10,MAG-7 | Foresight (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,MAG-7 | MAGnitude (Battle-Scarred),0.09,81,median $0.09 < $3
+cheap,True,300,20,MAG-7 | Monster Call (Well-Worn),0.48,43,median $0.48 < $3
+cheap,True,300,20,MAG-7 | Resupply (Battle-Scarred),0.07,53,median $0.07 < $3
+test,True,900,10,MAG-7 | Wildwood (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,MP5-SD | Co-Processor (Field-Tested),0.25,27,median $0.25 < $3
+cheap,True,300,20,MP5-SD | Dirt Drop (Well-Worn),0.01,8,median $0.01 < $3
+cheap,True,300,20,MP5-SD | Savannah Halftone (Well-Worn),0.06,6,median $0.06 < $3
+cheap,True,300,20,MP7 | Astrolabe (Battle-Scarred),0.2,93,median $0.20 < $3
+cheap,True,300,20,MP7 | Coral Paisley (Field-Tested),0.03,83,median $0.03 < $3
+test,True,900,10,MP7 | Coral Paisley (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MP7 | Forest DDPAT (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,MP7 | Forest DDPAT (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MP7 | Just Smile (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MP7 | Sunbaked (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,MP9 | Buff Blue (Well-Worn),,0,no_seen_price_yet
+test,True,900,10,MP9 | Food Chain (Factory New),,0,no_seen_price_yet
+test,True,900,10,MP9 | Multi-Terrain (Battle-Scarred),,0,no_seen_price_yet
+cheap,True,300,20,MP9 | Nexus (Field-Tested),0.08,6,median $0.08 < $3
+cheap,True,300,20,Negev | Bulkhead (Well-Worn),0.04,9,median $0.04 < $3
+cheap,True,300,20,Negev | Drop Me (Well-Worn),0.08,56,median $0.08 < $3
+cheap,True,300,20,Nova | Dark Sigil (Field-Tested),0.08,180,median $0.08 < $3
+cheap,True,300,20,Nova | Sand Dune (Well-Worn),0.02,20,median $0.02 < $3
+test,True,900,10,Nova | Turquoise Pour (Factory New),,0,no_seen_price_yet
+test,True,900,10,P2000 | Amber Fade (Factory New),,0,no_seen_price_yet
+test,True,900,10,P2000 | Red Wing (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,P2000 | Red Wing (Well-Worn),0.09,90,median $0.09 < $3
+core,True,60,6,P250 | Asiimov (Field-Tested),13.23,5,"median $13.23, seen 5"
+test,True,900,10,P250 | Bullfrog (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,P250 | Cyber Shell (Field-Tested),0.5,32,median $0.50 < $3
+test,True,900,10,P250 | Sleet (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,P250 | Valence (Field-Tested),0.35,1,median $0.35 < $3
+test,True,900,10,P90 | Blue Tac (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,P90 | Desert Halftone (Well-Worn),0.01,5,median $0.01 < $3
+cheap,True,300,20,P90 | Neoqueen (Field-Tested),0.45,39,median $0.45 < $3
+test,True,900,10,PP-Bizon | Night Ops (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,PP-Bizon | RMX (Battle-Scarred),0.09,109,median $0.09 < $3
+cheap,True,300,20,PP-Bizon | Wood Block Camo (Battle-Scarred),0.01,10,median $0.01 < $3
+test,True,900,10,PP-Bizon | Wood Block Camo (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,R8 Revolver | Banana Cannon (Battle-Scarred),0.45,66,median $0.45 < $3
+cheap,True,300,20,R8 Revolver | Bone Mask (Field-Tested),0.02,34,median $0.02 < $3
+test,True,900,10,R8 Revolver | Crazy 8 (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,R8 Revolver | Inlay (Field-Tested),0.06,31,median $0.06 < $3
+test,True,900,10,Sawed-Off | Fubar (Battle-Scarred),,0,no_seen_price_yet
+test,True,900,10,Sawed-Off | Kiss♥Love (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,Sawed-Off | Snake Camo (Well-Worn),0.03,19,median $0.03 < $3
+cheap,True,300,20,SCAR-20 | Contractor (Battle-Scarred),0.01,13,median $0.01 < $3
+cheap,True,300,20,SCAR-20 | Poultrygeist (Battle-Scarred),0.07,3,median $0.07 < $3
+test,True,900,10,SCAR-20 | Zinc (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,SG 553 | Basket Halftone (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,SG 553 | Cyberforce (Well-Worn),0.07,52,median $0.07 < $3
+test,True,900,10,SG 553 | Dragon Tech (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,SG 553 | Night Camo (Well-Worn),,0,no_seen_price_yet
+test,True,900,10,SG 553 | Ol' Rusty (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,SG 553 | Ol' Rusty (Field-Tested),0.08,74,median $0.08 < $3
+test,True,900,10,SG 553 | Ol' Rusty (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,SSG 08 | Calligrafaux (Factory New),,0,no_seen_price_yet
+test,True,900,10,SSG 08 | Green Ceramic (Battle-Scarred),,0,no_seen_price_yet
+cheap,True,300,20,SSG 08 | Grey Smoke (Well-Worn),0.01,1,median $0.01 < $3
+test,True,900,10,SSG 08 | Tiger Tear (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ Glock-18 | Off World (Well-Worn),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ Glock-18 | Winterized (Well-Worn),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ M4A4 | Etch Lord (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ M4A4 | Poly Mag (Well-Worn),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ MAG-7 | Foresight (Field-Tested),,0,no_seen_price_yet
+cheap,True,300,20,StatTrak™ MP9 | Modest Threat (Field-Tested),0.2,28,median $0.20 < $3
+test,True,900,10,StatTrak™ P2000 | Lifted Spirits (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ P90 | Freight (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ SCAR-20 | Poultrygeist (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ SSG 08 | Mainframe 001 (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,StatTrak™ UMP-45 | Roadblock (Field-Tested),,0,no_seen_price_yet
+test,True,900,10,Tec-9 | Banana Leaf (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,Tec-9 | Blue Blast (Field-Tested),0.01,259,median $0.01 < $3
+cheap,True,300,20,Tec-9 | Rebel (Field-Tested),0.07,29,median $0.07 < $3
+cheap,True,300,20,Tec-9 | Red Quartz (Minimal Wear),0.39,34,median $0.39 < $3
+cheap,True,300,20,UMP-45 | Arctic Wolf (Field-Tested),0.5,19,median $0.50 < $3
+test,True,900,10,UMP-45 | Urban DDPAT (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,USP-S | Cortex (Factory New),,0,no_seen_price_yet
+cheap,True,300,20,USP-S | Flashback (Field-Tested),0.67,76,median $0.67 < $3
+cheap,True,300,20,USP-S | Forest Leaves (Field-Tested),0.06,69,median $0.06 < $3
+test,True,900,10,USP-S | Forest Leaves (Minimal Wear),,0,no_seen_price_yet
+core,True,60,6,USP-S | Jawbreaker (Battle-Scarred),3.85,106,"median $3.85, seen 106"
+cheap,True,300,20,USP-S | PC-GRN (Battle-Scarred),0.14,76,median $0.14 < $3
+test,True,900,10,USP-S | Silent Shot (Minimal Wear),,0,no_seen_price_yet
+test,True,900,10,USP-S | Ticket to Hell (Minimal Wear),,0,no_seen_price_yet
+cheap,True,300,20,USP-S | Ticket to Hell (Well-Worn),0.76,27,median $0.76 < $3
+cheap,True,300,20,XM1014 | Blue Spruce (Well-Worn),0.07,9,median $0.07 < $3
+cheap,True,300,20,XM1014 | CaliCamo (Field-Tested),0.13,37,median $0.13 < $3
+core,True,60,6,XM1014 | Entombed (Field-Tested),4.46,87,"median $4.46, seen 87"
+cheap,True,300,20,XM1014 | Gum Wall Camo (Field-Tested),0.02,70,median $0.02 < $3
+cheap,True,300,20,XM1014 | Mockingbird (Battle-Scarred),0.07,28,median $0.07 < $3

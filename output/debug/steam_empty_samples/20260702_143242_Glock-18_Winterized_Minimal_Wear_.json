@@ -1,0 +1,15 @@
+{
+  "reason": "rate_limited",
+  "status": 200,
+  "html_size": 92116,
+  "title": "Market Item - Steam Community Market",
+  "has_listinginfo": false,
+  "has_listing_row": false,
+  "has_app_730": true,
+  "has_captcha": false,
+  "has_rate_limit": true,
+  "has_access_denied": false,
+  "has_login": true,
+  "query": "Glock-18 | Winterized (Minimal Wear)",
+  "url": "https://steamcommunity.com/market/listings/730/G18042086093004"
+}
